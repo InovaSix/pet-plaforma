@@ -25,6 +25,7 @@ interface SectionProps {
   containerSize?: "default" | "narrow" | "wide";
   className?: string;
   containerClassName?: string;
+  watermark?: ReactNode;
   children: ReactNode;
 }
 
@@ -35,14 +36,21 @@ export function Section({
   containerSize = "default",
   className,
   containerClassName,
+  watermark,
   children,
 }: SectionProps) {
   return (
     <section
       id={id}
-      className={cn("scroll-mt-24", tones[tone], spacings[spacing], className)}
+      className={cn(
+        "relative scroll-mt-24 overflow-hidden",
+        tones[tone],
+        spacings[spacing],
+        className,
+      )}
     >
-      <Container size={containerSize} className={containerClassName}>
+      {watermark}
+      <Container size={containerSize} className={cn("relative", containerClassName)}>
         {children}
       </Container>
     </section>

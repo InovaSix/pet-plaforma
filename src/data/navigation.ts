@@ -22,7 +22,6 @@ export const footerColumns: FooterColumn[] = [
     links: [
       { label: "Como funciona", href: "/#como-funciona" },
       { label: "Segurança", href: "/#seguranca" },
-      { label: "Conheça o Marshmallow", href: "/#mascote" },
       { label: "Seja cuidador", href: "/#cuidadores" },
     ],
   },
@@ -40,5 +39,5 @@ export const footerColumns: FooterColumn[] = [
 export const socialLinks: NavLink[] = [
   { label: "Instagram", href: "#" },
   { label: "Facebook", href: "#" },
-  { label: "WhatsApp", href: "#" },
+  { label: "YouTube", href: "#" },
 ];

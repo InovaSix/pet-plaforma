@@ -1,12 +1,12 @@
+import { Section } from "@/components/ui/Section";
 import {
   BecomeCaregiver,
-  Experience,
   FinalCta,
   Hero,
   HowItWorks,
-  Mascot,
   Safety,
   Services,
+  Testimonials,
 } from "@/sections/home";
 
 export default function HomePage() {
@@ -14,11 +14,14 @@ export default function HomePage() {
     <>
       <Hero />
       <HowItWorks />
-      <Experience />
       <Services />
-      <Safety />
-      <Mascot />
-      <BecomeCaregiver />
+      <Section tone="cream" spacing="compact" containerSize="wide">
+        <div className="grid gap-5 lg:grid-cols-2 lg:items-stretch">
+          <Safety />
+          <BecomeCaregiver />
+        </div>
+      </Section>
+      <Testimonials />
       <FinalCta />
     </>
   );

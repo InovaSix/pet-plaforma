@@ -1,31 +1,40 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
+import { Avatar } from "@/components/ui/Avatar";
+import { PawHeartMark } from "@/components/Logo";
 import { heroTrustPoints } from "@/data/home";
 import { assetPath } from "@/lib/asset-path";
+
+const heroThumbs = [
+  { src: "/images/gallery/g5.jpg", alt: "Marshmallow em retrato circular." },
+  { src: "/images/gallery/g2.jpg", alt: "Marshmallow sorrindo." },
+  { src: "/images/gallery/g4.jpg", alt: "Close de Marshmallow." },
+];
 
 export function Hero() {
   return (
     <section className="relative overflow-hidden bg-cream">
       <div
-        className="u-paw-field pointer-events-none absolute inset-0 opacity-70 [mask-image:radial-gradient(120%_80%_at_80%_0%,black,transparent_70%)]"
+        className="pointer-events-none absolute -left-24 top-8 h-[28rem] w-[28rem] text-forest-200/55 sm:-left-16 sm:top-0"
         aria-hidden="true"
-      />
-      <div className="relative mx-auto grid w-full max-w-7xl gap-10 px-5 pt-10 pb-14 sm:px-6 sm:pt-14 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:gap-12 lg:px-8 lg:pt-16 lg:pb-20">
-        <div className="max-w-xl">
-          <span className="u-rise inline-flex items-center gap-2 rounded-full border border-forest-100 bg-white px-3 py-1.5 text-xs font-semibold tracking-tight text-forest-700">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-forest-400 opacity-60" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-forest-500" />
-            </span>
+      >
+        <PawHeartMark className="h-full w-full" />
+      </div>
+
+      <div className="relative mx-auto grid w-full max-w-7xl items-center gap-10 px-5 pt-6 pb-16 sm:px-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-8 lg:px-8 lg:pt-8 lg:pb-20">
+        <div className="relative z-10 max-w-xl">
+          <span className="u-rise inline-flex items-center gap-2 text-sm font-medium text-forest-700">
+            <Icon name="shield-check" className="h-4 w-4" strokeWidth={2} />
             Cuidadores verificados perto de você
           </span>
 
           <h1
-            className="u-rise mt-5 text-balance text-[2.7rem] leading-[1.04] font-semibold text-ink sm:text-5xl lg:text-[3.7rem]"
+            className="u-rise mt-4 text-balance text-[2.55rem] leading-[1.05] font-semibold text-ink sm:text-5xl lg:text-[3.35rem]"
             style={{ animationDelay: "70ms" }}
           >
-            Seu pet merece <span className="text-forest-600">cuidado de verdade.</span>
+            Seu pet merece{" "}
+            <span className="text-forest-700">cuidado de verdade.</span>
           </h1>
 
           <p
@@ -40,11 +49,16 @@ export function Hero() {
             className="u-rise mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap"
             style={{ animationDelay: "210ms" }}
           >
-            <Button href="/buscar-cuidador" size="md">
+            <Button href="/buscar-cuidador" size="md" className="rounded-full px-6">
               Encontrar cuidador
               <Icon name="arrow-right" className="h-4 w-4" />
             </Button>
-            <Button href="/#cuidadores" variant="secondary" size="md">
+            <Button
+              href="/#cuidadores"
+              variant="secondary"
+              size="md"
+              className="rounded-full px-6"
+            >
               Quero ser cuidador
             </Button>
           </div>
@@ -70,67 +84,63 @@ export function Hero() {
         </div>
 
         <div className="u-rise relative" style={{ animationDelay: "160ms" }}>
-          <div className="relative aspect-[1.16/1] overflow-hidden rounded-[2rem] bg-forest-100 shadow-lift ring-1 ring-black/5 sm:aspect-[1.25/1]">
+          <p className="absolute -top-1 left-[12%] z-20 hidden max-w-[7.5rem] text-center text-[0.7rem] leading-snug font-medium text-forest-800 sm:block lg:left-[8%]">
+            Mais tempo com quem te faz bem
+            <span className="mt-1 block text-forest-500">♡</span>
+          </p>
+
+          <div className="relative isolate ml-auto aspect-[1.18/1] w-full overflow-hidden rounded-[2.75rem] rounded-bl-[4.5rem] bg-forest-100 shadow-lift ring-1 ring-black/5 sm:aspect-[1.28/1] lg:w-[96%]">
             <Image
               src={assetPath("/images/hero-marshmallow.jpg")}
               alt="Marshmallow, um Spitz Alemão branco, correndo feliz por um parque ao entardecer."
               fill
               priority
               sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover"
+              className="object-cover object-[50%_40%]"
             />
-          </div>
 
-          <div className="absolute bottom-3 left-3 flex gap-2 sm:bottom-4 sm:left-4">
-            {["/images/gallery/g1.jpg", "/images/gallery/g2.jpg", "/images/gallery/g3.jpg"].map(
-              (src, index) => (
+            <div className="absolute top-4 right-4 flex items-center gap-2 rounded-2xl bg-white/95 px-3 py-2 shadow-lift backdrop-blur">
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-sand text-sand-ink">
+                <Icon name="star" className="h-4 w-4" />
+              </span>
+              <div className="leading-tight">
+                <p className="text-sm font-semibold text-ink">4,9</p>
+                <p className="text-[0.65rem] text-ink-faint">128 avaliações</p>
+              </div>
+            </div>
+
+            <div className="absolute bottom-4 left-4 flex -space-x-2 sm:bottom-5 sm:left-5">
+              {heroThumbs.map((thumb) => (
                 <div
-                  key={src}
-                  className="relative h-12 w-12 overflow-hidden rounded-xl border-2 border-white shadow-soft sm:h-14 sm:w-14"
+                  key={thumb.src}
+                  className="relative h-11 w-11 overflow-hidden rounded-full border-[3px] border-white shadow-soft sm:h-12 sm:w-12"
                 >
                   <Image
-                    src={assetPath(src)}
-                    alt=""
+                    src={assetPath(thumb.src)}
+                    alt={thumb.alt}
                     fill
-                    sizes="56px"
+                    sizes="48px"
                     className="object-cover"
                   />
-                  {index === 2 && (
-                    <span className="absolute inset-0 grid place-items-center bg-forest-900/45 text-xs font-semibold text-white">
-                      +6
-                    </span>
-                  )}
                 </div>
-              ),
-            )}
-          </div>
-
-          <div className="absolute -bottom-5 left-3 flex items-center gap-3 rounded-2xl border border-line bg-white/95 p-3 pr-4 text-left shadow-lift backdrop-blur sm:left-5">
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-forest-50 text-forest-600">
-              <Icon name="route" className="h-5 w-5" />
-            </span>
-            <div>
-              <p className="text-[0.8rem] font-semibold text-ink">
-                Passeio em andamento
-              </p>
-              <p className="text-xs text-ink-soft">
-                Marina está com o Thor · 12 min
-              </p>
+              ))}
             </div>
-          </div>
 
-          <div className="absolute -top-4 right-2 hidden items-center gap-2 rounded-2xl border border-line bg-white/95 px-3 py-2 shadow-lift backdrop-blur sm:flex lg:right-3">
-            <Icon
-              name="star"
-              className="h-4 w-4 text-forest-500"
-              strokeWidth={2}
-            />
-            <p className="text-[0.8rem] font-semibold text-ink">
-              4,9{" "}
-              <span className="font-normal text-ink-faint">
-                média das avaliações
-              </span>
-            </p>
+            <div className="absolute right-3 bottom-3 flex max-w-[15.5rem] items-center gap-3 rounded-2xl bg-white/96 p-2.5 pr-3.5 shadow-lift backdrop-blur sm:right-5 sm:bottom-5">
+              <Avatar name="Maria Santos" size="sm" />
+              <div className="min-w-0">
+                <p className="text-[0.8rem] font-semibold text-ink">
+                  Passeio acontecendo
+                </p>
+                <p className="truncate text-xs text-ink-soft">
+                  Maria está com Thor
+                </p>
+                <p className="mt-0.5 flex items-center gap-1 text-[0.7rem] text-ink-faint">
+                  <Icon name="map-pin" className="h-3 w-3 text-forest-600" />
+                  12 min · Curitiba
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -3,39 +3,35 @@ import type { ExperienceStage, HowItWorksStep, SafetyItem } from "@/types";
 
 export const heroTrustPoints: { label: string; icon: IconName }[] = [
   { label: "Cuidadores verificados", icon: "shield-check" },
+  { label: "Avaliações reais", icon: "star" },
   { label: "Acompanhamento", icon: "map-pin" },
   { label: "Fotos durante o serviço", icon: "camera" },
-  { label: "Avaliações reais", icon: "star" },
 ];
 
 export const howItWorksSteps: HowItWorksStep[] = [
   {
     number: 1,
-    title: "Conte o que seu pet precisa",
-    description:
-      "Raça, idade, rotina e as manias dele. Quanto mais a gente sabe, mais o cuidado fica com a sua cara.",
-    icon: "list-checks",
-  },
-  {
-    number: 2,
-    title: "Encontre o cuidador ideal",
-    description:
-      "Compare perfis, avaliações e valores. Você escolhe quem combina com o seu pet e com a sua rotina.",
+    title: "Encontrar",
+    description: "Busque por cuidadores na sua região.",
     icon: "search",
   },
   {
+    number: 2,
+    title: "Agendar",
+    description: "Escolha o melhor horário e confirme o serviço.",
+    icon: "calendar-days",
+  },
+  {
     number: 3,
-    title: "Acompanhe o atendimento",
-    description:
-      "Início do serviço, localização e fotos chegam para você enquanto tudo acontece.",
-    icon: "route",
+    title: "Acompanhar",
+    description: "Receba atualizações, fotos e status em tempo real.",
+    icon: "map-pin",
   },
   {
     number: 4,
-    title: "Fique tranquilo",
-    description:
-      "No fim, um relatório com duração, trajeto, observações e o álbum completo do dia.",
-    icon: "heart",
+    title: "Receber",
+    description: "Veja o relatório final e a avaliação do serviço.",
+    icon: "shield-check",
   },
 ];
 
@@ -89,39 +85,28 @@ export const experienceStages: ExperienceStage[] = [
 
 export const safetyItems: SafetyItem[] = [
   {
-    title: "Perfis verificados",
-    description:
-      "Documento, referências e entrevista antes de qualquer cuidador atender pela PetCare.",
+    title: "Cuidadores verificados",
+    description: "Documento, referências e entrevista antes de atender.",
     icon: "badge-check",
   },
   {
-    title: "Avaliações reais",
-    description:
-      "Só quem contratou pode avaliar. As notas e os comentários ficam visíveis no perfil.",
+    title: "Avaliações reais de outros tutores",
+    description: "Só quem contratou pode avaliar o serviço.",
     icon: "star",
   },
   {
-    title: "Registro dos atendimentos",
-    description:
-      "Cada serviço fica salvo com data, horário, cuidador e o que foi combinado.",
-    icon: "list-checks",
-  },
-  {
-    title: "Fotos durante o serviço",
-    description:
-      "O cuidador envia fotos no caminho, para você ver como o seu pet está naquele momento.",
-    icon: "camera",
-  },
-  {
-    title: "Relatório ao fim",
-    description:
-      "Trajeto, duração, alimentação e observações organizados em um resumo simples.",
+    title: "Acompanhamento durante o serviço",
+    description: "Status e localização enquanto o atendimento acontece.",
     icon: "route",
   },
   {
-    title: "Suporte quando precisar",
-    description:
-      "Um time de gente de verdade para ajudar antes, durante e depois do atendimento.",
+    title: "Fotos e atualizações em tempo real",
+    description: "O cuidador envia fotos no caminho.",
+    icon: "camera",
+  },
+  {
+    title: "Suporte em caso de imprevistos",
+    description: "Um time pronto para ajudar quando precisar.",
     icon: "life-buoy",
   },
 ];
@@ -130,4 +115,66 @@ export const becomeCaregiverPoints: string[] = [
   "Você define os seus valores",
   "Você escolhe os dias e horários",
   "Pagamento organizado pela PetCare",
+];
+
+export const homeServiceCards: {
+  id: "passeio" | "visita" | "hospedagem" | "pet-sitter";
+  title: string;
+  description: string;
+  image: string;
+  imageAlt: string;
+}[] = [
+  {
+    id: "passeio",
+    title: "Passeios",
+    description: "Seu pet se exercita enquanto você acompanha tudo.",
+    image: "/images/gallery/g1.jpg",
+    imageAlt: "Marshmallow correndo no parque durante um passeio.",
+  },
+  {
+    id: "visita",
+    title: "Visitas",
+    description: "Cuidados no conforto da própria casa.",
+    image: "/images/mascot-marshmallow.jpg",
+    imageAlt: "Marshmallow com bandana verde, pronto para uma visita em casa.",
+  },
+  {
+    id: "hospedagem",
+    title: "Hospedagem",
+    description: "Uma segunda casa enquanto você estiver fora.",
+    image: "/images/gallery/g2.jpg",
+    imageAlt: "Retrato de Marshmallow, representando hospedagem aconchegante.",
+  },
+  {
+    id: "pet-sitter",
+    title: "Cuidados especiais",
+    description: "Atenção personalizada para cada necessidade.",
+    image: "/images/gallery/g4.jpg",
+    imageAlt: "Close de Marshmallow, representando cuidados especiais.",
+  },
+];
+
+export const homeTestimonials: {
+  name: string;
+  rating: number;
+  quote: string;
+}[] = [
+  {
+    name: "Juliana Costa",
+    rating: 5,
+    quote:
+      "O app é incrível! Minha gatinha a Luna super bem cuidada e relatou tudo o tempo todo.",
+  },
+  {
+    name: "Rafael Lima",
+    rating: 5,
+    quote:
+      "Profissionais atenciosos e responsáveis. Recomendo demais!",
+  },
+  {
+    name: "Fernanda Alves",
+    rating: 5,
+    quote:
+      "Meu cãozinho adorou. Já usei várias vezes e sempre foi ótimo!",
+  },
 ];

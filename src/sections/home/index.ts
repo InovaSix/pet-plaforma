@@ -5,4 +5,5 @@ export { Services } from "./Services";
 export { Safety } from "./Safety";
 export { Mascot } from "./Mascot";
 export { BecomeCaregiver } from "./BecomeCaregiver";
+export { Testimonials } from "./Testimonials";
 export { FinalCta } from "./FinalCta";
