@@ -1,0 +1,567 @@
+/*
+ * Estilos do cadastro de prestadores, portados de cadastro-prestador-pet.html.
+ * Os valores seguem os estilos computados do protótipo; não altere sem
+ * comparar com ele.
+ *
+ * Decoração: em vez do padrão repetido do protótipo, o cadastro usa a pata
+ * com coração da home (PawWatermark), só em dois pontos. Ver
+ * RegistrationLayout.tsx.
+ */
+
+.page {
+  --pet-bg: #f7f6f1;
+  --pet-panel: #fff;
+  --pet-text: #183725;
+  --pet-muted: #526659;
+  --pet-line: #dce6dd;
+  --pet-soft: #eef6f0;
+  --pet-green: #1f7a3a;
+  --pet-on: #fff;
+  --pet-error: #a72a26;
+
+  color-scheme: light;
+  padding: 24px;
+  color: var(--pet-text);
+  background-color: var(--pet-bg);
+  /* Camada própria para a pata externa ficar atrás do conteúdo e não
+     gerar rolagem horizontal. */
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;
+}
+
+.root {
+  max-width: 1200px;
+  min-height: calc(100vh - 48px);
+  margin: 0 auto;
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  font-feature-settings: normal;
+  font-size: 16px;
+  line-height: normal;
+  color: var(--pet-text);
+}
+
+.root * {
+  box-sizing: border-box;
+}
+
+/* O tema global aplica a fonte de títulos e ajustes de texto; o protótipo
+   usa a mesma família do corpo e o fluxo de texto padrão. */
+.root h1,
+.root h2,
+.root p {
+  font-family: inherit;
+  letter-spacing: normal;
+  text-wrap: wrap;
+}
+
+/* --- Decoração (PawWatermark da home) ----------------------------------- */
+
+/* Margens externas: a borda interna de cada pata para 24px dentro da borda
+   do cadastro (largura máxima de 1200px), antes do texto da lateral e do
+   painel, que começam 32px para dentro. Só no desktop. */
+.pawSide {
+  --paw-side: 18rem;
+  --frame-edge: max(24px, (100% - 1200px) / 2);
+  display: none;
+  z-index: -1;
+  top: 220px;
+  width: var(--paw-side);
+  height: var(--paw-side);
+}
+
+.pawLeft {
+  left: calc(var(--frame-edge) + 24px - var(--paw-side));
+}
+
+.pawRight {
+  right: calc(var(--frame-edge) + 24px - var(--paw-side));
+}
+
+@media (min-width: 1024px) {
+  .pawSide {
+    display: block;
+  }
+}
+
+/* Centro do formulário, atrás do conteúdo, como na home. */
+.pawCenter {
+  z-index: -1;
+  left: 50%;
+  top: 50%;
+  width: min(26rem, 80%);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+}
+
+/* --- Cabeçalho ----------------------------------------------------------- */
+
+.header {
+  padding: 22px 32px;
+  border-bottom: 1px solid var(--pet-line);
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-weight: 650;
+  font-size: 21px;
+}
+
+.brandIcon {
+  color: var(--pet-green);
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--pet-muted);
+}
+
+/* --- Estrutura ----------------------------------------------------------- */
+
+.shell {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 34px;
+  padding: 32px;
+}
+
+.aside {
+  height: fit-content;
+  min-width: 0;
+}
+
+.asideTitle {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: normal;
+  margin: 0 0 14px;
+}
+
+.asideText {
+  color: var(--pet-muted);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 14px 0;
+}
+
+.panel {
+  /* A pata interna fica atrás do conteúdo, recortada no canto do painel. */
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background: var(--pet-panel);
+  padding: 28px;
+  border: 1px solid var(--pet-line);
+  border-radius: 20px;
+  box-shadow: 0 16px 40px #1837250a;
+  min-width: 0;
+}
+
+/* --- Indicador de etapas ------------------------------------------------- */
+
+.steps {
+  display: block;
+}
+
+.stepList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.step {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--pet-muted);
+  text-align: left;
+  padding: 12px 0;
+  width: 100%;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.step:disabled {
+  cursor: default;
+}
+
+.stepMark {
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--pet-line);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.step[aria-current="step"] {
+  color: var(--pet-green);
+  font-weight: 650;
+}
+
+.step[aria-current="step"] .stepMark {
+  background: var(--pet-green);
+  color: var(--pet-on);
+  border-color: var(--pet-green);
+}
+
+/* --- Conteúdo do painel -------------------------------------------------- */
+
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pet-green);
+}
+
+.title {
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 10px 0;
+}
+
+.title:focus {
+  outline: none;
+}
+
+.title:focus-visible {
+  outline: 2px solid var(--pet-green);
+  outline-offset: 4px;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: normal;
+  margin: 0 0 14px;
+}
+
+.subtitle {
+  color: var(--pet-muted);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+
+.choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.choice {
+  background: var(--pet-panel);
+  border: 1px solid var(--pet-line);
+  border-radius: 14px;
+  padding: 18px;
+  text-align: left;
+  color: var(--pet-text);
+  display: flex;
+  gap: 12px;
+  font: inherit;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.choice[aria-pressed="true"] {
+  background: var(--pet-soft);
+  border: 2px solid var(--pet-green);
+  padding: 17px;
+}
+
+.choiceIcon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.choiceName {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.choiceText {
+  font-size: 12px;
+  color: var(--pet-muted);
+  line-height: 1.5;
+  display: block;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.label {
+  font-size: 13px;
+  display: block;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.control {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid var(--pet-line);
+  border-radius: 10px;
+  padding: 12px;
+  font: inherit;
+  font-size: 16px;
+  line-height: normal;
+  background-color: #fff;
+  color: var(--pet-text);
+}
+
+.control::placeholder {
+  color: #757575;
+  opacity: 1;
+}
+
+.control[aria-invalid="true"] {
+  border-color: var(--pet-error);
+}
+
+/* No protótipo, só os inputs ficam brancos; a área de texto usa o fundo. */
+textarea.control {
+  min-height: 100px;
+  resize: vertical;
+  background-color: var(--pet-bg);
+}
+
+/* Restaura o botão nativo do seletor de arquivo, removido pelo reset global. */
+.control::file-selector-button {
+  margin: 0 4px 0 0;
+  padding: 1px 6px;
+  border: 1px solid #767676;
+  border-radius: 2px;
+  background-color: #efefef;
+  color: #000;
+  font: inherit;
+  cursor: pointer;
+}
+
+.photoLabel {
+  margin-top: 18px;
+}
+
+.photoHint {
+  font-size: 12px;
+  color: var(--pet-muted);
+  margin: 12px 0;
+}
+
+.photoHint + .photoHint {
+  margin-top: -6px;
+}
+
+.checks {
+  display: grid;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.check {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  background: var(--pet-soft);
+  border-radius: 10px;
+  font-size: 13px;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.check input {
+  margin: 3px 3px 3px 4px;
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.checksInvalid .check {
+  box-shadow: inset 0 0 0 1px var(--pet-error);
+}
+
+.note {
+  margin-top: 24px;
+  padding: 14px;
+  border-radius: 12px;
+  background: var(--pet-soft);
+  color: var(--pet-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.error {
+  color: var(--pet-error);
+  font-size: 13px;
+  margin: 14px 0 13px;
+}
+
+.actions {
+  border-top: 1px solid var(--pet-line);
+  padding-top: 20px;
+  margin-top: 28px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.action {
+  font: inherit;
+  font-size: 14px;
+  line-height: normal;
+  border: 1px solid var(--pet-line);
+  border-radius: 10px;
+  padding: 12px 20px;
+  background: var(--pet-panel);
+  color: var(--pet-text);
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.primary {
+  background: var(--pet-green);
+  color: var(--pet-on);
+  border-color: var(--pet-green);
+}
+
+/* --- Revisão ------------------------------------------------------------- */
+
+.review {
+  margin: 0;
+}
+
+.reviewRow {
+  padding: 13px 0;
+  border-bottom: 1px solid var(--pet-line);
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  font-size: 14px;
+}
+
+.reviewRow dt {
+  color: var(--pet-muted);
+  flex-shrink: 0;
+}
+
+.reviewRow dd {
+  margin: 0;
+  font-weight: 700;
+  text-align: right;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+  min-width: 0;
+}
+
+/* --- Confirmação --------------------------------------------------------- */
+
+.success {
+  text-align: center;
+  padding: 35px 0;
+}
+
+.successMark {
+  background: var(--pet-soft);
+  color: var(--pet-green);
+  border-radius: 50%;
+  width: 68px;
+  height: 68px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 20px;
+}
+
+.successMark svg {
+  width: 24px;
+  height: 24px;
+}
+
+.restart {
+  margin-top: 20px;
+}
+
+/* --- Responsivo ---------------------------------------------------------- */
+
+@media (max-width: 700px) {
+  .header {
+    padding: 18px;
+  }
+
+  .shell {
+    padding: 18px;
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .asideTitle,
+  .asideText,
+  .aside > .note {
+    display: none;
+  }
+
+  .stepList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .step {
+    width: auto;
+    padding: 4px;
+    font-size: 12px;
+    /* Alvo de toque confortável em telas pequenas. */
+    min-height: 44px;
+  }
+
+  .stepMark {
+    width: 24px;
+    height: 24px;
+  }
+
+  .panel {
+    padding: 20px;
+  }
+
+  .fields,
+  .choices {
+    grid-template-columns: 1fr;
+  }
+
+  .hint {
+    max-width: 110px;
+    text-align: right;
+  }
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 12px;
+  }
+
+  .root {
+    min-height: calc(100vh - 24px);
+  }
+}
