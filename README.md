@@ -43,6 +43,12 @@ A validação reaproveita as regras do formulário (`src/lib/provider-registrati
 e os cadastros ficam em `data/prestadores.json`, fora do git, até existir um banco
 de dados (`src/lib/server/provider-store.ts`).
 
+Para preencher com 10 prestadores de exemplo (com `npm run dev` rodando):
+
+```bash
+npm run seed
+```
+
 A API só existe com servidor (`npm run dev`). Os arquivos de rota usam a extensão
 `.api.ts` para que o build estático do GitHub Pages os ignore.
 
