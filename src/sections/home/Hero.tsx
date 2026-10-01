@@ -54,7 +54,7 @@ export function Hero() {
               <Icon name="arrow-right" className="h-4 w-4" />
             </Button>
             <Button
-              href="/#cuidadores"
+              href="/cadastro-prestador"
               variant="secondary"
               size="md"
               className="rounded-full px-6"

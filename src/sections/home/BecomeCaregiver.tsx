@@ -32,7 +32,7 @@ export function BecomeCaregiver() {
             comece a receber solicitações.
           </p>
           <Button
-            href="/#cuidadores"
+            href="/cadastro-prestador"
             variant="inverse"
             size="md"
             className="mt-6 rounded-full"
