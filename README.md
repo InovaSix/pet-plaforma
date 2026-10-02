@@ -32,6 +32,32 @@ npm run build    # build de produção
 
 As três últimas páginas usam dados mockados em `src/data/caregivers.ts`.
 
+## API de cadastro de prestadores
+
+| Método e rota           | Descrição                                                   |
+| ----------------------- | ----------------------------------------------------------- |
+| `POST /api/prestadores` | Valida e salva um cadastro (201 com o id, ou 400 com erros) |
+| `GET /api/prestadores`  | Lista os cadastros salvos (somente fora de produção)        |
+
+A validação reaproveita as regras do formulário (`src/lib/provider-registration.ts`)
+e os cadastros ficam em `data/prestadores.json`, fora do git, até existir um banco
+de dados (`src/lib/server/provider-store.ts`).
+
+Para preencher com 10 prestadores de exemplo (com `npm run dev` rodando):
+
+```bash
+npm run seed
+```
+
+A API só existe com servidor (`npm run dev`). Os arquivos de rota usam a extensão
+`.api.ts` para que o build estático do GitHub Pages os ignore.
+
+```bash
+curl -X POST http://localhost:3000/api/prestadores \
+  -H "content-type: application/json" \
+  -d '{"category":"Cuidador","name":"Ana","email":"ana@exemplo.com","phone":"(41) 99999-0000","cep":"80000-000","city":"Curitiba, PR","region":"Centro","services":["Passeio"]}'
+```
+
 ## Estrutura
 
 ```
