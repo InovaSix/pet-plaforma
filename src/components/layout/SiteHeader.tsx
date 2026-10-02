@@ -36,7 +36,7 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b transition-colors duration-300",
+        "sticky top-0 z-50 border-b pt-[env(safe-area-inset-top)] transition-colors duration-300",
         scrolled || menuOpen
           ? "border-line bg-cream/90 backdrop-blur-md"
           : "border-transparent bg-cream/70 backdrop-blur-sm",
@@ -62,10 +62,10 @@ export function SiteHeader() {
 
         <div className="hidden items-center gap-1 lg:flex">
           <Link
-            href="/#cuidadores"
+            href="/cadastro-prestador"
             className="rounded-lg px-3 py-2 text-sm font-medium text-ink-soft transition-colors hover:bg-forest-50 hover:text-forest-800"
           >
-            Entrar
+            Cadastrar
           </Link>
           <Button href="/buscar-cuidador" size="sm" className="rounded-full">
             Encontrar cuidador
@@ -101,11 +101,11 @@ export function SiteHeader() {
               </Link>
             ))}
             <Link
-              href="/#cuidadores"
+              href="/cadastro-prestador"
               onClick={closeMenu}
               className="rounded-lg px-3 py-3 text-[0.95rem] font-medium text-ink transition-colors hover:bg-forest-50"
             >
-              Entrar
+              Cadastrar
             </Link>
             <Button
               href="/buscar-cuidador"

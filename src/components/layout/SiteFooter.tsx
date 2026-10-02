@@ -36,7 +36,7 @@ function SocialGlyph({ name }: { name: string }) {
 
 export function SiteFooter() {
   return (
-    <footer className="bg-forest-900 text-forest-100">
+    <footer className="bg-forest-900 pb-[env(safe-area-inset-bottom)] text-forest-100">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-5 py-10 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
         <div className="flex max-w-sm items-start gap-3">
           <Logo tone="inverse" href="/" />

@@ -21,6 +21,24 @@ npm run lint     # ESLint
 npm run build    # build de produção
 ```
 
+## App instalável (PWA)
+
+O site pode ser instalado na tela inicial do Android e do iPhone.
+
+- `src/app/manifest.ts`: nome, cores, ícones e atalhos do app
+- `public/sw.js`: service worker (páginas pela rede primeiro, arquivos estáticos pelo cache e `/offline` sem internet; a API nunca entra no cache)
+- `src/components/pwa/`: registro do service worker (só em produção) e banner "Instale o app"
+- Ícones: `node scripts/generate-pwa-icons.mjs` gera `public/icons/` e `src/app/apple-icon.png` a partir de `src/app/icon.svg`
+
+Para testar, gere o build e sirva a pasta `out/` (o service worker não roda em `npm run dev`):
+
+```bash
+npm run build
+node scripts/serve-out.mjs   # http://localhost:5050
+```
+
+No celular, a instalação exige HTTPS. Ao mudar `public/sw.js`, troque `CACHE_VERSION` para descartar caches antigos.
+
 ## Páginas
 
 | Rota                 | Descrição                                    |

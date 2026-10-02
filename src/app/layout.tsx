@@ -3,6 +3,8 @@ import { Bricolage_Grotesque, Inter } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
+import { InstallPrompt } from "@/components/pwa/InstallPrompt";
+import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -35,6 +37,12 @@ export const metadata: Metadata = {
     "hospedagem de pets",
   ],
   authors: [{ name: "PetCare" }],
+  appleWebApp: {
+    capable: true,
+    title: "PetCare",
+    statusBarStyle: "default",
+  },
+  formatDetection: { telephone: false },
   openGraph: {
     type: "website",
     locale: "pt_BR",
@@ -54,6 +62,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: "#f7f6f1",
   colorScheme: "light",
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -79,6 +88,8 @@ export default function RootLayout({
           {children}
         </main>
         <SiteFooter />
+        <InstallPrompt />
+        <ServiceWorkerRegister />
       </body>
     </html>
   );
