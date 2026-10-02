@@ -44,7 +44,7 @@ export const experienceStages: ExperienceStage[] = [
       "Cuidador confirmado, horário definido e as instruções do seu pet já com quem vai cuidar.",
     image: "/images/mockups/mockup-agendado.jpg",
     imageAlt:
-      "Tela inicial do app PetCare com o próximo passeio de Marshmallow confirmado.",
+      "Tela inicial do app MundoPetCare com o próximo passeio de Marshmallow confirmado.",
     points: [
       "Cuidador confirmado para a data",
       "Horário e duração combinados",
@@ -74,7 +74,7 @@ export const experienceStages: ExperienceStage[] = [
       "Ao final, um resumo completo: quanto durou, quanto andou, como foi e todas as fotos do dia.",
     image: "/images/mockups/mockup-relatorio.jpg",
     imageAlt:
-      "Tela de relatório do serviço no app PetCare, com duração, distância e observações do cuidador.",
+      "Tela de relatório do serviço no app MundoPetCare, com duração, distância e observações do cuidador.",
     points: [
       "Duração e distância do serviço",
       "Observações escritas pelo cuidador",
@@ -114,7 +114,7 @@ export const safetyItems: SafetyItem[] = [
 export const becomeCaregiverPoints: string[] = [
   "Você define os seus valores",
   "Você escolhe os dias e horários",
-  "Pagamento organizado pela PetCare",
+  "Pagamento organizado pela MundoPetCare",
 ];
 
 export const homeServiceCards: {

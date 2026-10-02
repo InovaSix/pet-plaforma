@@ -9,11 +9,14 @@ const providers = JSON.parse(await readFile(file, "utf8"));
 
 let failures = 0;
 for (const provider of providers) {
+  // A API recebe multipart/form-data: o cadastro em `dados` (os exemplos não
+  // têm foto, então o campo `foto` não vai).
+  const form = new FormData();
+  form.set("dados", JSON.stringify(provider));
   try {
     const response = await fetch(`${baseUrl}/api/prestadores`, {
       method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(provider),
+      body: form,
     });
     const body = await response.json();
     if (response.status === 201) {

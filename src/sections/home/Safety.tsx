@@ -33,7 +33,7 @@ export function Safety() {
         <div className="relative h-full min-h-[260px] overflow-hidden rounded-[1.35rem]">
           <Image
             src={assetPath("/images/mascot-marshmallow.jpg")}
-            alt="Marshmallow, mascote da PetCare, com bandana verde."
+            alt="Marshmallow, mascote da MundoPetCare, com bandana verde."
             fill
             sizes="(min-width: 1024px) 28vw, 90vw"
             className="object-cover object-[50%_20%]"

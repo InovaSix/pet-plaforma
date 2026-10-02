@@ -14,12 +14,12 @@ import styles from "./registration.module.css";
 interface PhotoFieldProps {
   id: string;
   photo: SelectedPhoto | null;
-  onChange: (photo: SelectedPhoto | null) => void;
+  onChange: (photo: SelectedPhoto | null, file: File | null) => void;
 }
 
 /**
- * Seleção da foto do perfil. O arquivo é apenas conferido no navegador:
- * nada é enviado e nenhuma prévia é gerada.
+ * Seleção da foto do perfil. O arquivo é conferido no navegador e enviado
+ * junto com o cadastro; nenhuma prévia é gerada.
  */
 export function PhotoField({ id, photo, onChange }: PhotoFieldProps) {
   const [error, setError] = useState<string | null>(null);
@@ -37,7 +37,7 @@ export function PhotoField({ id, photo, onChange }: PhotoFieldProps) {
 
     if (!file) {
       setError(null);
-      onChange(null);
+      onChange(null, null);
       return;
     }
 
@@ -55,7 +55,7 @@ export function PhotoField({ id, photo, onChange }: PhotoFieldProps) {
       return;
     }
     setError(null);
-    onChange({ name: file.name, size: file.size, type: file.type });
+    onChange({ name: file.name, size: file.size, type: file.type }, file);
   }
 
   return (

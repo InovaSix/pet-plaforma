@@ -18,7 +18,7 @@ export default function OfflinePage() {
         Você está sem internet
       </h1>
       <p className="mx-auto mt-3 max-w-md text-sm text-ink-soft">
-        Verifique sua conexão. Assim que ela voltar, o PetCare continua de onde
+        Verifique sua conexão. Assim que ela voltar, o MundoPetCare continua de onde
         você parou.
       </p>
       <div className="mt-6 flex justify-center">

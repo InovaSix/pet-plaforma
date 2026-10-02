@@ -1,14 +1,12 @@
-// Service worker do PetCare (PWA).
+// Service worker do MundoPetCare (PWA).
 // Mude CACHE_VERSION quando alterar este arquivo para descartar caches antigos.
 const CACHE_VERSION = "v1";
-const PAGES_CACHE = `petcare-pages-${CACHE_VERSION}`;
-const ASSETS_CACHE = `petcare-assets-${CACHE_VERSION}`;
+const PAGES_CACHE = `mundopetcare-pages-${CACHE_VERSION}`;
+const ASSETS_CACHE = `mundopetcare-assets-${CACHE_VERSION}`;
 
 // Funciona com ou sem sub-caminho (basePath): tudo é relativo ao escopo.
 const BASE = new URL(self.registration.scope).pathname.replace(/\/$/, "");
-// O build estático gera offline.html; o nome com extensão funciona em
-// qualquer hospedagem (Apache/Hostinger, nginx, serve-out) sem regras extras.
-const OFFLINE_URL = `${BASE}/offline.html`;
+const OFFLINE_URL = `${BASE}/offline`;
 const PRECACHE = [
   OFFLINE_URL,
   `${BASE}/`,
@@ -47,7 +45,7 @@ self.addEventListener("activate", (event) => {
       .then((keys) =>
         Promise.all(
           keys
-            .filter((key) => key.startsWith("petcare-") && !keep.includes(key))
+            .filter((key) => key.startsWith("mundopetcare-") && !keep.includes(key))
             .map((key) => caches.delete(key)),
         ),
       )

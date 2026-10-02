@@ -7,7 +7,7 @@ import { SearchForm } from "@/components/search/SearchForm";
 export const metadata: Metadata = {
   title: "Buscar cuidador",
   description:
-    "Diga onde você está, qual serviço precisa e quando. A PetCare mostra os cuidadores verificados disponíveis por perto.",
+    "Diga onde você está, qual serviço precisa e quando. A MundoPetCare mostra os cuidadores verificados disponíveis por perto.",
 };
 
 const assurances = [

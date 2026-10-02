@@ -25,7 +25,7 @@ export function BecomeCaregiver() {
             Quer fazer parte?
           </p>
           <h2 className="mt-3 text-3xl text-white sm:text-[2.15rem]">
-            Seja um cuidador PetCare
+            Seja um cuidador MundoPetCare
           </h2>
           <p className="mt-3 max-w-sm text-sm leading-relaxed text-forest-100/80">
             Transforme seu amor por animais em uma fonte de renda. Cadastre-se e
@@ -44,7 +44,7 @@ export function BecomeCaregiver() {
         <div className="relative mx-auto aspect-square w-full max-w-[220px] overflow-hidden rounded-[1.4rem] ring-4 ring-white/10 lg:max-w-none">
           <Image
             src={assetPath("/images/gallery/g6.jpg")}
-            alt="Marshmallow correndo na grama, a cara da PetCare."
+            alt="Marshmallow correndo na grama, a cara da MundoPetCare."
             fill
             sizes="220px"
             className="object-cover"

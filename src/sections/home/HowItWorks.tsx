@@ -24,7 +24,7 @@ export function HowItWorks() {
             Simples e seguro
           </p>
           <h2 className="mt-3 text-3xl text-forest-800 sm:text-4xl">
-            Como o PetCare acompanha cada momento
+            Como o MundoPetCare acompanha cada momento
           </h2>
         </div>
         <p className="max-w-sm text-sm leading-relaxed text-ink-soft lg:text-right">

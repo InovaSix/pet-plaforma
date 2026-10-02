@@ -6,7 +6,7 @@ interface ConfirmationProps {
   onRestart: () => void;
 }
 
-/** Estado final do envio simulado. Nenhum dado é enviado ou salvo. */
+/** Estado final depois que a API salvou o cadastro. */
 export function Confirmation({ onRestart }: ConfirmationProps) {
   return (
     <div className={styles.success}>
@@ -16,14 +16,14 @@ export function Confirmation({ onRestart }: ConfirmationProps) {
       <h2 className={styles.sectionTitle}>Estamos preparando seu perfil</h2>
       <p className={styles.subtitle}>Status: aguardando análise</p>
       <div className={styles.note}>
-        Simulação concluída. Nenhum dado foi enviado ou salvo.
+        Vamos avisar pelo e-mail e telefone informados assim que a análise terminar.
       </div>
       <button
         type="button"
         className={cn(styles.action, styles.primary, styles.restart)}
         onClick={onRestart}
       >
-        Revisar as telas
+        Fazer outro cadastro
       </button>
     </div>
   );

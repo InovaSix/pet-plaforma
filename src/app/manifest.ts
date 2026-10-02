@@ -6,8 +6,8 @@ export const dynamic = "force-static";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: assetPath("/"),
-    name: "PetCare – Cuidadores de confiança",
-    short_name: "PetCare",
+    name: "MundoPetCare – Cuidadores de confiança",
+    short_name: "MundoPetCare",
     description:
       "Encontre cuidadores de confiança para passeios, visitas e cuidados. Acompanhe o serviço em tempo real e receba fotos e atualizações do seu melhor amigo.",
     lang: "pt-BR",

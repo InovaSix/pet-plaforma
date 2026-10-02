@@ -23,12 +23,12 @@ const siteUrl = "https://petcare.example";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "PetCare | Cuidado e carinho quando você não pode estar",
-    template: "%s | PetCare",
+    default: "MundoPetCare | Cuidado e carinho quando você não pode estar",
+    template: "%s | MundoPetCare",
   },
   description:
     "Encontre cuidadores de confiança para passeios, visitas e cuidados. Acompanhe o serviço em tempo real e receba fotos e atualizações do seu melhor amigo.",
-  applicationName: "PetCare",
+  applicationName: "MundoPetCare",
   keywords: [
     "cuidador de cães",
     "passeador de cães",
@@ -36,24 +36,24 @@ export const metadata: Metadata = {
     "dog walker",
     "hospedagem de pets",
   ],
-  authors: [{ name: "PetCare" }],
+  authors: [{ name: "MundoPetCare" }],
   appleWebApp: {
     capable: true,
-    title: "PetCare",
+    title: "MundoPetCare",
     statusBarStyle: "default",
   },
   formatDetection: { telephone: false },
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    siteName: "PetCare",
-    title: "PetCare | Cuidado e carinho quando você não pode estar",
+    siteName: "MundoPetCare",
+    title: "MundoPetCare | Cuidado e carinho quando você não pode estar",
     description:
       "Cuidadores verificados para passeios, visitas e cuidados, com acompanhamento e fotos durante o serviço.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "PetCare",
+    title: "MundoPetCare",
     description:
       "Cuidadores verificados para passeios, visitas e cuidados do seu pet.",
   },

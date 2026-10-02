@@ -1,8 +1,8 @@
-# PetCare
+# MundoPetCare
 
 Cuidado e carinho quando você não pode estar.
 
-Versão 1 do site institucional da PetCare: uma plataforma para encontrar
+Versão 1 do site institucional da MundoPetCare: uma plataforma para encontrar
 cuidadores de confiança para passeios, visitas e cuidados de pets.
 
 ## Stack
@@ -30,11 +30,11 @@ O site pode ser instalado na tela inicial do Android e do iPhone.
 - `src/components/pwa/`: registro do service worker (só em produção) e banner "Instale o app"
 - Ícones: `node scripts/generate-pwa-icons.mjs` gera `public/icons/` e `src/app/apple-icon.png` a partir de `src/app/icon.svg`
 
-Para testar, gere o build e sirva a pasta `out/` (o service worker não roda em `npm run dev`):
+Para testar, gere o build e rode o servidor de produção (o service worker não roda em `npm run dev`):
 
 ```bash
 npm run build
-node scripts/serve-out.mjs   # http://localhost:5050
+npm start        # http://localhost:3000
 ```
 
 No celular, a instalação exige HTTPS. Ao mudar `public/sw.js`, troque `CACHE_VERSION` para descartar caches antigos.
@@ -48,7 +48,9 @@ No celular, a instalação exige HTTPS. Ao mudar `public/sw.js`, troque `CACHE_V
 | `/cuidadores`        | Lista de resultados com filtros e ordenação  |
 | `/cuidador/[id]`     | Perfil completo do cuidador                  |
 
-As três últimas páginas usam dados mockados em `src/data/caregivers.ts`.
+As três últimas páginas leem os cuidadores de `src/data/caregivers.ts`, que hoje
+está vazio: os cuidadores de exemplo foram removidos e a busca mostra um aviso de
+"ainda não há cuidadores" até os cadastros aprovados virem do banco.
 
 ## API de cadastro de prestadores
 
@@ -57,9 +59,15 @@ As três últimas páginas usam dados mockados em `src/data/caregivers.ts`.
 | `POST /api/prestadores` | Valida e salva um cadastro (201 com o id, ou 400 com erros) |
 | `GET /api/prestadores`  | Lista os cadastros salvos (somente fora de produção)        |
 
-A validação reaproveita as regras do formulário (`src/lib/provider-registration.ts`)
-e os cadastros ficam em `data/prestadores.json`, fora do git, até existir um banco
-de dados (`src/lib/server/provider-store.ts`).
+O `POST` recebe `multipart/form-data` com dois campos: `dados` (o cadastro em
+JSON) e `foto` (opcional, JPG, PNG ou WebP de até 5 MB). A validação reaproveita
+as regras do formulário (`src/lib/provider-registration.ts`), inclusive a
+conferência da assinatura do arquivo da foto.
+
+Os cadastros vão para a tabela `prestadores` do Supabase e as fotos para o bucket
+privado `prestadores-fotos` (`src/lib/server/provider-store.ts`). Sem o Supabase
+configurado, fora de produção, eles caem em `data/prestadores.json` (fora do git),
+que é o que os testes automatizados usam. Em produção o Supabase é obrigatório.
 
 Para preencher com 10 prestadores de exemplo (com `npm run dev` rodando):
 
@@ -67,14 +75,34 @@ Para preencher com 10 prestadores de exemplo (com `npm run dev` rodando):
 npm run seed
 ```
 
-A API só existe com servidor (`npm run dev`). Os arquivos de rota usam a extensão
-`.api.ts` para que o build estático do GitHub Pages os ignore.
-
 ```bash
 curl -X POST http://localhost:3000/api/prestadores \
-  -H "content-type: application/json" \
-  -d '{"category":"Cuidador","name":"Ana","email":"ana@exemplo.com","phone":"(41) 99999-0000","cep":"80000-000","city":"Curitiba, PR","region":"Centro","services":["Passeio"]}'
+  -F 'dados={"category":"Cuidador","name":"Ana","email":"ana@exemplo.com","phone":"(41) 99999-0000","cep":"80000-000","city":"Curitiba, PR","region":"Centro","services":["Passeio"]}' \
+  -F 'foto=@ana.jpg'
 ```
+
+## Banco de dados local (Supabase)
+
+O MundoPetCare usa um Supabase local próprio, rodando no Docker, separado de
+outros projetos (`project_id = "mundopetcare"` e portas 55321 a 55329 em
+`supabase/config.toml`). A estrutura do banco fica em `supabase/migrations/`.
+
+Com o Docker Desktop aberto:
+
+```bash
+npx supabase@2 start     # sobe o banco e aplica as migrações
+npx supabase@2 status    # mostra a API URL e a service_role key
+```
+
+Copie `.env.example` para `.env.local` e preencha com os valores do `status`.
+Depois é só rodar `npm run dev`.
+
+- Studio (ver tabelas e fotos): http://127.0.0.1:55323
+- Recriar o banco do zero (apaga os dados locais): `npx supabase@2 db reset`
+- Desligar: `npx supabase@2 stop`
+
+O navegador nunca acessa o banco diretamente: a tabela tem RLS ligado e sem
+políticas, e só o servidor do site grava e lê, com a service role.
 
 ## Estrutura
 
@@ -105,22 +133,25 @@ Para regerar os recortes das imagens do mascote:
 node scripts/prepare-images.mjs
 ```
 
-## Publicação (GitHub Pages)
+## Publicação
 
-Todo push na branch `main` publica o site automaticamente, via
-[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml). O site fica em
-`https://<usuario>.github.io/<repositorio>/`.
+O site roda como servidor Node.js (`npm run build` e `npm start`), por exemplo
+como app Node.js na Hostinger. Ele não é mais exportado como site estático, então
+não funciona no GitHub Pages.
 
-O projeto exporta como site 100% estático (`output: "export"` em
-[`next.config.ts`](next.config.ts)), então não precisa de servidor: qualquer host
-de arquivos estáticos serve o conteúdo de `out/`.
+Configuração do app Node.js na Hostinger (hPanel):
 
-Para testar a versão exportada localmente antes de publicar:
+| Campo               | Valor              |
+| ------------------- | ------------------ |
+| Framework           | Next.js            |
+| Versão do Node      | 20.x ou 22.x       |
+| Comando de build    | `npm run build`    |
+| Comando de início   | `npm start`        |
+| Pasta de saída      | `.next`            |
 
-```bash
-npm run build
-node scripts/serve-out.mjs   # http://localhost:5050
-```
+O `next start` usa a porta que a Hostinger passa na variável `PORT`.
 
-Na primeira vez, habilite o Pages em Settings → Pages → Source → "GitHub Actions"
-no repositório.
+Em produção, defina nas variáveis de ambiente do app `NEXT_PUBLIC_SUPABASE_URL` e
+`SUPABASE_SERVICE_ROLE_KEY` de um projeto Supabase na nuvem criado só para o
+MundoPetCare, com as migrações de `supabase/migrations/` aplicadas. Sem elas o
+site abre normalmente, mas o envio do cadastro de prestadores responde com erro.

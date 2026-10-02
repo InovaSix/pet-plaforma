@@ -44,7 +44,7 @@ export function Logo({
   className,
   withWordmark = true,
   href = "/",
-  label = "PetCare, página inicial",
+  label = "MundoPetCare, página inicial",
 }: LogoProps) {
   const colors = toneMap[tone];
 
@@ -60,7 +60,7 @@ export function Logo({
             colors.word,
           )}
         >
-          PetCare
+          MundoPetCare
         </span>
       )}
     </span>

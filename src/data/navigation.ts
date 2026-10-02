@@ -18,7 +18,7 @@ export const footerColumns: FooterColumn[] = [
     ],
   },
   {
-    title: "PetCare",
+    title: "MundoPetCare",
     links: [
       { label: "Como funciona", href: "/#como-funciona" },
       { label: "Segurança", href: "/#seguranca" },

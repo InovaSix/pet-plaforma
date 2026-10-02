@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 
-const DISMISS_KEY = "petcare:install-dismissed-at";
+const DISMISS_KEY = "mundopetcare:install-dismissed-at";
 const DISMISS_DAYS = 7;
 const SHOW_DELAY_MS = 3000;
 
@@ -94,7 +94,7 @@ export function InstallPrompt() {
   return (
     <div
       role="dialog"
-      aria-label="Instalar o app PetCare"
+      aria-label="Instalar o app MundoPetCare"
       className="fixed inset-x-3 bottom-[calc(0.75rem+env(safe-area-inset-bottom))] z-[60] mx-auto max-w-md rounded-2xl border border-line bg-paper p-4 shadow-lift sm:inset-x-auto sm:right-6 sm:bottom-6"
     >
       <div className="flex items-start gap-3">
@@ -103,7 +103,7 @@ export function InstallPrompt() {
         </span>
         <div className="min-w-0 flex-1">
           <p className="font-display text-base font-semibold text-ink">
-            Instale o app PetCare
+            Instale o app MundoPetCare
           </p>
           {mode === "android" ? (
             <p className="mt-1 text-sm text-ink-soft">

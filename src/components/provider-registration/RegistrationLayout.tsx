@@ -28,13 +28,13 @@ export function RegistrationLayout({
         <header className={styles.header}>
           <div className={styles.brand}>
             <PawPrint className={styles.brandIcon} aria-hidden="true" />
-            PetCare
+            MundoPetCare
           </div>
-          <span className={styles.hint}>Prévia do cadastro de prestadores</span>
+          <span className={styles.hint}>Cadastro de prestadores</span>
         </header>
         <div className={styles.shell}>
           <aside className={styles.aside}>
-            <h2 className={styles.asideTitle}>Faça parte da PetCare</h2>
+            <h2 className={styles.asideTitle}>Faça parte da MundoPetCare</h2>
             <p className={styles.asideText}>
               Apresente seus serviços e ajude tutores a encontrar o cuidado
               certo.

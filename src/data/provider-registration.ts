@@ -53,7 +53,7 @@ export const registrationSteps = [
 
 export const LAST_STEP = registrationSteps.length - 1;
 
-/** Metadados da foto escolhida. O arquivo nunca sai do navegador. */
+/** Metadados da foto escolhida. O arquivo em si é enviado à parte. */
 export interface SelectedPhoto {
   name: string;
   size: number;

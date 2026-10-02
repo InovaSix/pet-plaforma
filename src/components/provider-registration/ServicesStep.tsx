@@ -10,7 +10,7 @@ import styles from "./registration.module.css";
 
 interface ServicesStepProps extends StepFieldsProps {
   onServicesChange: (services: string[]) => void;
-  onPhotoChange: (photo: SelectedPhoto | null) => void;
+  onPhotoChange: (photo: SelectedPhoto | null, file: File | null) => void;
 }
 
 export function ServicesStep({

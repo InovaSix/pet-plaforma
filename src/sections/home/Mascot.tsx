@@ -15,7 +15,7 @@ export function Mascot() {
           <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] bg-forest-100 shadow-lift ring-1 ring-black/5">
             <Image
               src={assetPath("/images/mascot-marshmallow.jpg")}
-              alt="Retrato de Marshmallow, um Spitz Alemão branco usando uma bandana verde da PetCare."
+              alt="Retrato de Marshmallow, um Spitz Alemão branco usando uma bandana verde da MundoPetCare."
               fill
               sizes="(min-width: 1024px) 30vw, 90vw"
               className="object-cover object-[50%_30%]"
@@ -47,7 +47,7 @@ export function Mascot() {
             confiança, carinho e muito amor pelos animais.
           </Reveal>
           <Reveal as="p" delay={160} className="mt-3 leading-relaxed text-ink-soft">
-            Ele é a cara da PetCare e o lembrete diário do porquê a gente leva
+            Ele é a cara da MundoPetCare e o lembrete diário do porquê a gente leva
             cada passeio a sério.
           </Reveal>
 

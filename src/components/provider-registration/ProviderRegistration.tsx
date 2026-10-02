@@ -15,6 +15,7 @@ import {
   firstInvalidStep,
   validateStep,
   type StepIssues,
+  type ValidatedField,
 } from "@/lib/provider-registration";
 import { cn } from "@/lib/utils";
 import { CategoryStep } from "./CategoryStep";
@@ -30,9 +31,55 @@ import styles from "./registration.module.css";
 
 type FocusTarget = { kind: "heading" } | { kind: "field"; id: string };
 
+/** Etapa em que cada campo validado aparece, para voltar a ela em caso de erro. */
+const FIELD_STEP: Record<ValidatedField, number> = {
+  category: 0,
+  name: 1,
+  business: 1,
+  email: 1,
+  phone: 1,
+  crmv: 1,
+  cep: 2,
+  city: 2,
+  region: 2,
+  services: 3,
+};
+
+interface ApiError {
+  fields?: string[];
+  messages?: string[];
+}
+
+/** Envia o cadastro e a foto para a API (`POST /api/prestadores`). */
+async function sendRegistration(
+  data: RegistrationData,
+  photoFile: File | null,
+): Promise<{ ok: true } | { ok: false; error: ApiError }> {
+  const body = new FormData();
+  body.append("dados", JSON.stringify(data));
+  if (photoFile) body.append("foto", photoFile);
+
+  try {
+    const response = await fetch("/api/prestadores", { method: "POST", body });
+    if (response.ok) return { ok: true };
+    const error = (await response.json().catch(() => ({}))) as ApiError;
+    return { ok: false, error };
+  } catch {
+    return {
+      ok: false,
+      error: {
+        messages: [
+          "Sem conexão com o servidor. Verifique sua internet e tente de novo.",
+        ],
+      },
+    };
+  }
+}
+
 /**
- * Cadastro de prestadores (demonstração). Os dados ficam apenas na memória
- * deste componente: nada é enviado, salvo no navegador ou colocado na URL.
+ * Cadastro de prestadores. Os dados ficam na memória deste componente até o
+ * envio, quando vão para a API junto com a foto; nada é salvo no navegador
+ * ou colocado na URL.
  */
 export function ProviderRegistration() {
   const uid = useId();
@@ -43,6 +90,8 @@ export function ProviderRegistration() {
   const [step, setStep] = useState(0);
   const [data, setData] = useState<RegistrationData>(emptyRegistration);
   const [issues, setIssues] = useState<StepIssues | null>(null);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [sending, setSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   // Um objeto novo a cada pedido, para refazer o foco mesmo no mesmo alvo.
   const [focusRequest, setFocusRequest] = useState<FocusTarget | null>(null);
@@ -74,8 +123,9 @@ export function ProviderRegistration() {
     setFocusRequest({ kind: "field", id: fieldId(found.fields[0]) });
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (sending) return;
 
     if (step < LAST_STEP) {
       const found = validateStep(step, data);
@@ -99,8 +149,26 @@ export function ProviderRegistration() {
       return;
     }
 
-    setSubmitted(true);
+    setSending(true);
     setIssues(null);
+    const result = await sendRegistration(data, photoFile);
+    setSending(false);
+
+    if (!result.ok) {
+      // Erro num campo volta para a etapa dele; os demais ficam na revisão
+      // (a mensagem é anunciada pelo role="alert" do FormError).
+      const fields = (result.error.fields ?? []).filter(
+        (field): field is ValidatedField => field in FIELD_STEP,
+      );
+      const messages = result.error.messages?.length
+        ? result.error.messages
+        : ["Não conseguimos enviar seu cadastro. Tente novamente."];
+      if (fields.length > 0) block(FIELD_STEP[fields[0]], { fields, messages });
+      else setIssues({ fields: [], messages });
+      return;
+    }
+
+    setSubmitted(true);
     setFocusRequest({ kind: "heading" });
   }
 
@@ -116,12 +184,14 @@ export function ProviderRegistration() {
     setData((current) => ({ ...current, services }));
   }
 
-  function setPhoto(photo: SelectedPhoto | null) {
+  function setPhoto(photo: SelectedPhoto | null, file: File | null) {
     setData((current) => ({ ...current, photo }));
+    setPhotoFile(file);
   }
 
   function restart() {
     setData(emptyRegistration);
+    setPhotoFile(null);
     setSubmitted(false);
     goTo(0);
   }
@@ -144,14 +214,14 @@ export function ProviderRegistration() {
       }
     >
       <div className={styles.eyebrow}>
-        {submitted ? "Prévia concluída" : `Etapa ${step + 1} de ${LAST_STEP + 1}`}
+        {submitted ? "Cadastro recebido" : `Etapa ${step + 1} de ${LAST_STEP + 1}`}
       </div>
       <h1 id={titleId} ref={headingRef} tabIndex={-1} className={styles.title}>
         {submitted ? "Cadastro enviado para análise" : current.title}
       </h1>
       <p className={styles.subtitle}>
         {submitted
-          ? "Este é o estado de confirmação proposto para o prestador."
+          ? "Recebemos seus dados. Nossa equipe vai analisar e entrar em contato."
           : current.description}
       </p>
 
@@ -185,9 +255,14 @@ export function ProviderRegistration() {
                 Voltar
               </button>
             )}
-            <button type="submit" className={cn(styles.action, styles.primary)}>
+            <button
+              type="submit"
+              disabled={sending}
+              aria-busy={sending || undefined}
+              className={cn(styles.action, styles.primary)}
+            >
               {step === LAST_STEP ? (
-                "Enviar para análise"
+                sending ? "Enviando…" : "Enviar para análise"
               ) : (
                 <>
                   Continuar <span aria-hidden="true">→</span>

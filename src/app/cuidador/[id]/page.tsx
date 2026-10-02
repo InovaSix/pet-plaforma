@@ -37,7 +37,7 @@ export async function generateMetadata({
       caregiver.reviewsCount,
       "avaliação",
       "avaliações",
-    )}. Veja valores, fotos e disponibilidade na PetCare.`,
+    )}. Veja valores, fotos e disponibilidade na MundoPetCare.`,
   };
 }
 

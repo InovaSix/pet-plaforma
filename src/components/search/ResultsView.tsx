@@ -175,6 +175,28 @@ export function ResultsView() {
                   </li>
                 ))}
               </ul>
+            ) : caregiverSummaries.length === 0 ? (
+              <div className="rounded-2xl border border-dashed border-line-strong bg-white p-10 text-center">
+                <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-forest-50 text-forest-600">
+                  <Icon name="search" className="h-6 w-6" />
+                </span>
+                <h2 className="mt-4 text-lg font-semibold text-ink">
+                  Ainda não há cuidadores por aqui
+                </h2>
+                <p className="mx-auto mt-2 max-w-sm text-sm text-ink-soft">
+                  A MundoPetCare está começando e os primeiros cuidadores estão
+                  sendo aprovados. Volte em breve, ou cadastre-se se você cuida de
+                  pets.
+                </p>
+                <Button
+                  href="/cadastro-prestador"
+                  variant="secondary"
+                  size="sm"
+                  className="mt-5"
+                >
+                  Quero ser cuidador
+                </Button>
+              </div>
             ) : (
               <div className="rounded-2xl border border-dashed border-line-strong bg-white p-10 text-center">
                 <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-forest-50 text-forest-600">

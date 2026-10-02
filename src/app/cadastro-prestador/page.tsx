@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { ProviderRegistration } from "@/components/provider-registration/ProviderRegistration";
 
 export const metadata: Metadata = {
-  title: "Cadastro de prestadores (prévia)",
+  title: "Cadastro de prestadores",
   description:
-    "Prévia do cadastro de prestadores da PetCare: cuidadores, pet shops, veterinários, banho e tosa e lojas de ração. O envio é apenas simulado.",
+    "Cadastre-se como prestador na MundoPetCare: cuidadores, pet shops, veterinários, banho e tosa e lojas de ração.",
   robots: { index: false },
 };
 

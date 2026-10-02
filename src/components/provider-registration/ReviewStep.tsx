@@ -41,8 +41,7 @@ export function ReviewStep({ data }: { data: RegistrationData }) {
         ))}
       </dl>
       <div className={styles.note}>
-        Ao enviar, seu cadastro ficará pendente de análise. O envio nesta
-        prévia é apenas uma simulação.
+        Ao enviar, seu cadastro ficará pendente de análise pela nossa equipe.
       </div>
     </>
   );

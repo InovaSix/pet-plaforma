@@ -73,7 +73,7 @@ export function SiteFooter() {
 
       <div className="border-t border-forest-800">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-5 py-5 text-xs text-forest-100/55 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <p>© {currentYear} PetCare. Todos os direitos reservados.</p>
+          <p>© {currentYear} MundoPetCare. Todos os direitos reservados.</p>
           <div className="flex gap-5">
             <Link href="/#seguranca" className="hover:text-white">
               Termos de uso
