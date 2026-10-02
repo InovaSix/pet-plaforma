@@ -151,6 +151,11 @@ Configuração do app Node.js na Hostinger (hPanel):
 
 O `next start` usa a porta que a Hostinger passa na variável `PORT`.
 
+O `npm run build` usa o webpack (`next build --webpack`), com
+`webpackMemoryOptimizations` e 1 CPU em `next.config.ts`: com o Turbopack, o build
+é encerrado por falta de memória no servidor da Hostinger, sem nenhum log. Assim
+ele cabe em 768 MB. O `npm run dev` continua com o Turbopack.
+
 Em produção, defina nas variáveis de ambiente do app `NEXT_PUBLIC_SUPABASE_URL` e
 `SUPABASE_SERVICE_ROLE_KEY` de um projeto Supabase na nuvem criado só para o
 MundoPetCare, com as migrações de `supabase/migrations/` aplicadas. Sem elas o
