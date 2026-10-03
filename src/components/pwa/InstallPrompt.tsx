@@ -3,34 +3,16 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
+import { InstallHelp } from "@/components/pwa/InstallHelp";
+import {
+  getPlatform,
+  requestInstall,
+  useInstallState,
+} from "@/components/pwa/install-store";
 
 const DISMISS_KEY = "mundopetcare:install-dismissed-at";
 const DISMISS_DAYS = 7;
 const SHOW_DELAY_MS = 3000;
-
-// Evento do Chrome/Android que permite abrir o diálogo de instalação.
-interface BeforeInstallPromptEvent extends Event {
-  prompt: () => Promise<void>;
-  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
-}
-
-type Mode = "hidden" | "android" | "ios";
-
-function isStandalone() {
-  return (
-    window.matchMedia("(display-mode: standalone)").matches ||
-    (navigator as Navigator & { standalone?: boolean }).standalone === true
-  );
-}
-
-function isIOS() {
-  const ua = navigator.userAgent;
-  // iPadOS se identifica como Mac, mas tem tela touch.
-  return (
-    /iPad|iPhone|iPod/.test(ua) ||
-    (ua.includes("Macintosh") && navigator.maxTouchPoints > 1)
-  );
-}
 
 function recentlyDismissed() {
   try {
@@ -41,38 +23,32 @@ function recentlyDismissed() {
   }
 }
 
+/**
+ * Banner "Instale o app" que aparece sozinho no celular. Fechado, ele some por
+ * 7 dias, mas o botão "Baixar app" do cabeçalho continua disponível. Também
+ * monta o passo a passo de instalação usado pelos botões.
+ */
 export function InstallPrompt() {
-  const [mode, setMode] = useState<Mode>("hidden");
-  const [installEvent, setInstallEvent] =
-    useState<BeforeInstallPromptEvent | null>(null);
+  const { canPrompt, standalone, installed } = useInstallState();
+  const [ios, setIos] = useState(false);
+  const [dismissed, setDismissed] = useState(true);
 
   useEffect(() => {
-    if (isStandalone() || recentlyDismissed()) return;
-
-    const onBeforeInstall = (event: Event) => {
-      event.preventDefault();
-      setInstallEvent(event as BeforeInstallPromptEvent);
-      setMode("android");
-    };
-    const onInstalled = () => setMode("hidden");
-
-    window.addEventListener("beforeinstallprompt", onBeforeInstall);
-    window.addEventListener("appinstalled", onInstalled);
-
-    // O Safari não dispara beforeinstallprompt: mostramos a dica manual.
-    const timer = isIOS()
-      ? window.setTimeout(() => setMode("ios"), SHOW_DELAY_MS)
-      : undefined;
-
-    return () => {
-      window.removeEventListener("beforeinstallprompt", onBeforeInstall);
-      window.removeEventListener("appinstalled", onInstalled);
-      window.clearTimeout(timer);
-    };
+    const isIos = getPlatform() === "ios";
+    // O Safari não oferece instalação automática: mostramos o banner depois
+    // de alguns segundos, com o botão para o passo a passo.
+    const timer = window.setTimeout(
+      () => {
+        setIos(isIos);
+        setDismissed(recentlyDismissed());
+      },
+      isIos ? SHOW_DELAY_MS : 0,
+    );
+    return () => window.clearTimeout(timer);
   }, []);
 
   const dismiss = () => {
-    setMode("hidden");
+    setDismissed(true);
     try {
       localStorage.setItem(DISMISS_KEY, String(Date.now()));
     } catch {
@@ -80,66 +56,51 @@ export function InstallPrompt() {
     }
   };
 
-  const install = async () => {
-    if (!installEvent) return;
-    await installEvent.prompt();
-    const { outcome } = await installEvent.userChoice;
-    setInstallEvent(null);
-    if (outcome === "accepted") setMode("hidden");
-    else dismiss();
-  };
-
-  if (mode === "hidden") return null;
+  const visible = !dismissed && !standalone && !installed && (canPrompt || ios);
 
   return (
-    <div
-      role="dialog"
-      aria-label="Instalar o app MundoPetCare"
-      className="fixed inset-x-3 bottom-[calc(0.75rem+env(safe-area-inset-bottom))] z-[60] mx-auto max-w-md rounded-2xl border border-line bg-paper p-4 shadow-lift sm:inset-x-auto sm:right-6 sm:bottom-6"
-    >
-      <div className="flex items-start gap-3">
-        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-forest-50 text-forest-600">
-          <Icon name="paw-print" className="h-6 w-6" />
-        </span>
-        <div className="min-w-0 flex-1">
-          <p className="font-display text-base font-semibold text-ink">
-            Instale o app MundoPetCare
-          </p>
-          {mode === "android" ? (
-            <p className="mt-1 text-sm text-ink-soft">
-              Acesse mais rápido, direto da tela inicial do seu celular.
-            </p>
-          ) : (
-            <p className="mt-1 text-sm text-ink-soft">
-              Toque em{" "}
-              <Icon
-                name="share"
-                className="inline h-4 w-4 align-[-2px] text-forest-700"
-              />{" "}
-              <strong className="font-medium text-ink">Compartilhar</strong> e
-              depois em{" "}
-              <strong className="font-medium text-ink">
-                Adicionar à Tela de Início
-              </strong>
-              .
-            </p>
-          )}
-          {mode === "android" && (
-            <Button size="sm" onClick={install} className="mt-3 rounded-full">
-              <Icon name="download" className="h-4 w-4" />
-              Instalar app
-            </Button>
-          )}
-        </div>
-        <button
-          type="button"
-          onClick={dismiss}
-          aria-label="Fechar"
-          className="-m-1 grid h-8 w-8 shrink-0 place-items-center rounded-lg text-ink-faint transition-colors hover:bg-forest-50 hover:text-ink"
+    <>
+      <InstallHelp />
+      {visible && (
+        <div
+          role="dialog"
+          aria-label="Instalar o app MundoPetCare"
+          className="fixed inset-x-3 bottom-[calc(0.75rem+env(safe-area-inset-bottom))] z-[60] mx-auto max-w-md rounded-2xl border border-line bg-paper p-4 shadow-lift sm:inset-x-auto sm:right-6 sm:bottom-6"
         >
-          <Icon name="x" className="h-4 w-4" />
-        </button>
-      </div>
-    </div>
+          <div className="flex items-start gap-3">
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-forest-50 text-forest-600">
+              <Icon name="paw-print" className="h-6 w-6" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="font-display text-base font-semibold text-ink">
+                Instale o app MundoPetCare
+              </p>
+              <p className="mt-1 text-sm text-ink-soft">
+                Acesse mais rápido, direto da tela inicial do seu celular.
+              </p>
+              <Button
+                size="sm"
+                onClick={() => {
+                  setDismissed(true);
+                  void requestInstall();
+                }}
+                className="mt-3 rounded-full"
+              >
+                <Icon name="download" className="h-4 w-4" />
+                {canPrompt ? "Instalar app" : "Ver como instalar"}
+              </Button>
+            </div>
+            <button
+              type="button"
+              onClick={dismiss}
+              aria-label="Fechar"
+              className="-m-1 grid h-8 w-8 shrink-0 place-items-center rounded-lg text-ink-faint transition-colors hover:bg-forest-50 hover:text-ink"
+            >
+              <Icon name="x" className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Logo } from "@/components/Logo";
+import { InstallButton } from "@/components/pwa/InstallButton";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { primaryNav } from "@/data/navigation";
@@ -61,6 +62,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden items-center gap-1 lg:flex">
+          <InstallButton />
           <Link
             href="/cadastro-prestador"
             className="rounded-lg px-3 py-2 text-sm font-medium text-ink-soft transition-colors hover:bg-forest-50 hover:text-forest-800"
@@ -73,15 +75,18 @@ export function SiteHeader() {
           </Button>
         </div>
 
-        <button
-          type="button"
-          aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((open) => !open)}
-          className="grid h-10 w-10 place-items-center rounded-lg border border-line-strong bg-white text-ink transition-colors hover:border-forest-300 lg:hidden"
-        >
-          <Icon name={menuOpen ? "x" : "menu"} className="h-5 w-5" />
-        </button>
+        <div className="flex items-center gap-2 lg:hidden">
+          <InstallButton variant="icon" />
+          <button
+            type="button"
+            aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((open) => !open)}
+            className="grid h-10 w-10 place-items-center rounded-lg border border-line-strong bg-white text-ink transition-colors hover:border-forest-300"
+          >
+            <Icon name={menuOpen ? "x" : "menu"} className="h-5 w-5" />
+          </button>
+        </div>
       </div>
 
       {menuOpen && (
@@ -107,6 +112,11 @@ export function SiteHeader() {
             >
               Cadastrar
             </Link>
+            <InstallButton
+              variant="menu"
+              onClick={closeMenu}
+              className="mt-2"
+            />
             <Button
               href="/buscar-cuidador"
               onClick={closeMenu}
